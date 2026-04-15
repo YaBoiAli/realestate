@@ -32,7 +32,7 @@ function createTask(
     type,
     stage,
     priority,
-    completed: true,
+    completed: false,
     createdAt,
   };
 }
@@ -91,12 +91,20 @@ function buildCoreTasks(listing: Listing, now: string): Task[] {
 export function determineAutomatedStatus(currentStatus: ListingStatus, tasks: Task[]): ListingStatus {
   if (currentStatus === "live") return "live";
 
-  const hasMediaTask = tasks.some((t) => t.type === "media_task");
-  let status: ListingStatus = currentStatus === "new_listing" ? "marketing_prep" : currentStatus;
+  // Respect the user's selected stage at intake. Only auto-advance
+  // after corresponding automation tasks are actually completed.
+  const hasCompletedMarketingTask = tasks.some((t) => t.type === "marketing_content" && t.completed);
+  const hasCompletedMediaTask = tasks.some((t) => t.type === "media_task" && t.completed);
 
-  if (hasMediaTask) status = "media_scheduled";
+  if (currentStatus === "new_listing" && hasCompletedMarketingTask) {
+    return "marketing_prep";
+  }
 
-  return status;
+  if (hasCompletedMediaTask) {
+    return "media_scheduled";
+  }
+
+  return currentStatus;
 }
 
 function staggeredAt(baseIso: string, offsetMs: number): string {

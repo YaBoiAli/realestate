@@ -100,6 +100,19 @@ npm install
 npm run dev
 ```
 
+### Optional Slack Automation
+
+To send automation notifications to dedicated Slack channels, add these env vars:
+
+```bash
+SLACK_WEBHOOK_TRANSACTION_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ
+SLACK_WEBHOOK_MARKETING_URL=https://hooks.slack.com/services/AAA/BBB/CCC
+```
+
+Then restart `npm run dev`. New listing intake calls `POST /api/slack/notify` with:
+- `audience: transaction` for transaction-team alerts
+- `audience: marketing` for marketing-team alerts
+
 Open [http://localhost:3000](http://localhost:3000).
 
 ## Suggested 5-Minute Demo Flow

@@ -5,7 +5,7 @@ import { ListingCard } from "./listing-card";
 
 interface PipelineBoardProps {
   listings: Listing[];
-  onAdvance: (id: string) => void;
+  onAdvance: (listing: Listing) => void;
   onSelect: (id: string) => void;
 }
 

@@ -13,7 +13,7 @@ export function ListingCard({
 }: {
   listing: Listing;
   onSelect: (id: string) => void;
-  onAdvance: (id: string) => void;
+  onAdvance: (listing: Listing) => void;
   compact?: boolean;
 }) {
   return (
@@ -66,7 +66,7 @@ export function ListingCard({
             className="inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-700 hover:bg-indigo-100"
             onClick={(e) => {
               e.stopPropagation();
-              onAdvance(listing.id);
+              onAdvance(listing);
             }}
           >
             <Sparkles size={12} />
